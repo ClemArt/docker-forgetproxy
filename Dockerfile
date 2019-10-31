@@ -1,4 +1,4 @@
-FROM debian:wheezy
+FROM debian:buster-slim
 
 RUN apt-get -q update
 RUN apt-get -qy install \
