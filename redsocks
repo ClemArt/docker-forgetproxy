@@ -4,6 +4,9 @@
 cmd="iptables -v"
 iptables -L || cmd="iptables-legacy -v"
 
+# Apply NAT rules to containers CIDR
+containersCIDR="172.16.0.0/12"
+
 iptables_rules_create() {
   $cmd -t nat -N REDSOCKS
 
@@ -23,11 +26,11 @@ iptables_rules_create() {
   $cmd -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports 12346
 
   # Redirect docker to redsocks
-  $cmd -t nat -A PREROUTING -p tcp -s 172.16.0.0/12 -j REDSOCKS
+  $cmd -t nat -A PREROUTING -p tcp -s $containersCIDR -j REDSOCKS
 }
 
 iptables_rules_delete() {
-  $cmd -t nat -D PREROUTING -p tcp -s 172.16.0.0/12 -j REDSOCKS
+  $cmd -t nat -D PREROUTING -p tcp -s $containersCIDR -j REDSOCKS
   $cmd -t nat -F REDSOCKS
   $cmd -t nat -X REDSOCKS
 }
