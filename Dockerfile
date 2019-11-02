@@ -11,4 +11,3 @@ ADD redsocks.conf /tmp/
 ADD redsocks /root/
 
 ENTRYPOINT ["/bin/bash", "/root/redsocks"]
-

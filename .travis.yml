@@ -1,0 +1,11 @@
+services:
+  - docker
+
+before_script:
+  - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+
+script:
+  - docker build -t "$DOCKER_USERNAME/docker-forgetproxy:$TRAVIS_COMMIT" .
+  - docker tag "$DOCKER_USERNAME/docker-forgetproxy:$TRAVIS_COMMIT" "$DOCKER_USERNAME/docker-forgetproxy:latest"
+  - docker push "$DOCKER_USERNAME/docker-forgetproxy:$TRAVIS_COMMIT"
+  - docker push "$DOCKER_USERNAME/docker-forgetproxy:latest"
