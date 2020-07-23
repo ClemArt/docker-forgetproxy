@@ -27,9 +27,19 @@ The container  interprets the environment variables http_proxy and https_proxy t
 
 ## How to use it
 
+### setup
+
+Change the `redsocks@containersCIDR` value to the correct interface CIDR.
+
+### build
+
+    export http_proxy=http://myproxy:3128
+    export https_proxy=https://myproxy:3128
+    docker build -t forgetproxy --build-arg http_proxy --build_arg https_proxy
+
 ### start
 
-    docker run -ti --net=host --privileged -e http_proxy=http://myproxy:3128 -e https_proxy=http://myproxy:3128 klabs/forgetproxy
+    docker run -ti --net=host --privileged -e http_proxy -e https_proxy forgetproxy
 
 It is recommended to let the container run in the foreground as it is configured to intercept the CTRL+C and clean
 the iptables rules on exit.
